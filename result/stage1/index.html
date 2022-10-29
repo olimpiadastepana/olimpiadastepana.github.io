@@ -1,0 +1,124 @@
+<style>
+      a{
+            color:white;
+      }
+      body {
+            
+            background:  url("https://cs.pikabu.ru/post_img/2014/01/07/0/1389041510_1068470236.gif") ;
+            height: 100%;
+      }
+      
+      </style>
+      <script>
+            function colorLinks(hex)
+        {
+            var links = document.getElementsByTagName("a");
+            for(var i=0;i<links.length;i++)
+            {
+               
+                    links[i].style.color = hex;  
+                
+            }  
+        }
+            function edit(id) {
+                
+            img=document.getElementById(id)
+            
+            
+            if(img.src=='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png'){
+                img.src='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/dark.png'
+                document.body.style.background='white'
+                colorLinks('black')
+            }
+            else{
+                img.src='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png'
+                document.body.style.background='url("https://cs.pikabu.ru/post_img/2014/01/07/0/1389041510_1068470236.gif") '
+                colorLinks('white')
+                
+        
+                
+            }
+                
+            }
+            
+        </script>
+      <img id="edit" src="https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png" onclick="edit(this.id)">
+      <script>
+          function onbut(){
+              text = document.getElementById("code").value
+              document.getElementById("code").style.visibility = "hidden";
+              document.getElementById("but").style.visibility = "hidden";
+              document.getElementById("diplom").alt="Пока нет дипломов"
+              if(text=="563"){
+        document.getElementById("7").innerText='Архип____'
+        document.getElementById("diplom").src='stepimage.github.io/diplom11.jpg'
+              }
+              if(text=="874"){
+        document.getElementById("2").innerText='Алина____'
+        document.getElementById("diplom").src='stepimage.github.io/diplom12.jpg'
+              }
+              if(text=="165"){
+        document.getElementById("3").innerText='Настя____'
+        document.getElementById("diplom").src='stepimage.github.io/diplom13.jpg'
+        //document.getElementById("winner").innerText='Молодец! Нажми сюда!'
+              }
+              if(text=="358"){
+        document.getElementById("4").innerText='Алевтина_'
+        document.getElementById("diplom").src='stepimage.github.io/diplom14.jpg'
+              }
+              if(text=="927"){
+        document.getElementById("5").innerText='Алексей__'
+        document.getElementById("diplom").src='stepimage.github.io/diplom15.jpg'
+              }
+              if(text=="402"){
+        document.getElementById("6").innerText='Дядя Вова'
+        document.getElementById("diplom").src='stepimage.github.io/diplom16.jpg'
+              }
+              if(text=="215"){
+        document.getElementById("1").innerText='Владимир_'
+        document.getElementById("diplom").src='stepimage.github.io/diplom17.jpg'
+              }
+              if(text=="417"){
+        document.getElementById("8").innerText='Тётя Надя'
+        document.getElementById("diplom").src='stepimage.github.io/diplom18.jpg'
+              }
+      
+          }
+      
+      
+      </script>
+      
+      <a>ВВЕДИТЕ ВАШ ТРЁХЗНАЧНЫЙ КОД</a>
+      <input id="code">
+      <button id="but" onclick="onbut()">ВОЙТИ</button>
+      <br>
+      <a>__________  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 cумма</a><br>
+      <a id="1" style='color:red;'>__________</a><a style='color:red;'>0 из 9   0 из 9  0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9    0 из 9</a>
+      <br>
+      <a id="2">__________</a><a>0 из 9   0 из 9  0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9    0 из 9</a>
+      <br>
+      <a id="3">__________</a><a>0 из 9   0 из 9  0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9    0 из 9</a>
+      <br>
+      <a id="4">__________</a><a>0 из 9   0 из 9  0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9    0 из 9</a>
+      <br>
+      <a id="5">__________</a><a>0 из 9   0 из 9  0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9    0 из 9</a>
+      <br>
+      <a id="6">__________</a><a>0 из 9   0 из 9  0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9    0 из 9</a>
+      <br>
+      <a id="7">__________</a><a>0 из 9   0 из 9  0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9    0 из 9</a>
+      <br>
+      <a id="8">__________</a><a>0 из 9   0 из 9  0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9   0 из 9    0 из 9</a>
+      <br>
+      <img id="diplom" alt="Сначала надо ВОЙТИ в систему" >
+      
+      <script>
+      //<video  controls id="video" >
+       //     <source src="https://kubokgagarina.fvds.ru/RecordRTC/tmp/memII986139.mp4" type="video/mp4">
+            
+       //     Your browser doesn't support HTML5 video tag.
+        //  </video>
+      //<br>
+      </script>
+      
+      
+      <a id="winner" href="./winner.html"></a>

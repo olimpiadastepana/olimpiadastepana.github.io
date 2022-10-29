@@ -1,0 +1,51 @@
+<style>
+    a{
+          color:white;
+    }
+    body {
+          
+         background:  url("https://cs.pikabu.ru/post_img/2014/01/07/0/1389041510_1068470236.gif") ;
+         height: 100%;
+    }
+    
+    </style>
+    <script>
+        function colorLinks(hex)
+    {
+        var links = document.getElementsByTagName("a");
+        for(var i=0;i<links.length;i++)
+        {
+           
+                links[i].style.color = hex;  
+            
+        }  
+    }
+        function edit(id) {
+            
+        img=document.getElementById(id)
+        
+        
+        if(img.src=='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png'){
+            img.src='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/dark.png'
+            document.body.style.background='white'
+            colorLinks('black')
+        }
+        else{
+            img.src='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png'
+            document.body.style.background='url("https://cs.pikabu.ru/post_img/2014/01/07/0/1389041510_1068470236.gif")'
+            colorLinks('white')
+            
+    
+            
+        }
+            
+        }
+        
+    </script>
+
+<center>
+
+<a href="./stage1">результаты 1 этапа</a>
+<a href="./stage2">результаты 2 этапа</a>
+<img id="edit" src="https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png" onclick="edit(this.id)">
+</center>

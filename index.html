@@ -1,0 +1,81 @@
+<style>
+    a{
+          color:white;
+    }
+    
+    body {
+        
+         background:  url("https://cs.pikabu.ru/post_img/2014/01/07/0/1389041510_1068470236.gif") ;
+         height: 100%;
+    }
+    
+    </style>
+<style>
+    body{
+        background-color: black;
+        
+    }
+</style>
+<script>
+    function colorLinks(hex)
+{
+    var links = document.getElementsByTagName("a");
+    for(var i=0;i<links.length;i++)
+    {
+       
+            links[i].style.color = hex;  
+        
+    }  
+}
+    function edit(id) {
+        
+    img=document.getElementById(id)
+    
+    
+    if(img.src=='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png'){
+        img.src='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/dark.png'
+        document.body.style.background='white'
+        colorLinks('black')
+    }
+    else{
+        img.src='https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png'
+        document.body.style.background='url("https://cs.pikabu.ru/post_img/2014/01/07/0/1389041510_1068470236.gif")'
+        colorLinks('white')
+        
+
+        
+    }
+        
+    }
+    
+</script>
+<center>
+<h1 id="a"><a>ОЛИМПИАДА ОТ СТЕПАНА</a></h1>
+<body id="body">
+<a href="./reg/index.html"><font color="red">начать испытание</font></a>
+<a href="./result/index.html"><font color="blue">результаты</font></a>
+<br>
+
+<br>
+<a id='a' href="https://stepimage.github.io/games/snake">змейка</a>
+<img id="edit" src="https://alexgyver.ru/wp-content/plugins/wp-dark-mode/assets/images/btn-1/light.png" onclick="edit(this.id)">
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<!--a id="a">⬇️  А ВОТ ЭТО МЫ  ⬇️</a>-->
+<a id="a"><h1>⬇️  О НАС  ⬇️</h1></a>
+</center>
+<a>Главная сила в человеке — это сила духа,
+    <br>
+    - Юрий Алексеевич Гагарин</a>
+<center>
+<!-- img src="img/kubok big placat gagarina1.jpg">
+<img src="img/kubok-gagarina.jpg">
+<img src="img/on nag.jpeg">
+<img src="img/on nag2.jpeg">
+<img src="img/step_planet_1_uran.jpg">
+<img src="img/step_planet_2_upiter.jpg">
+<img src="img/step_planet_3_uran.jpg">
+<img src="img/step_planet_4_upiter.jpg"> -->
+</center>
+</body>
