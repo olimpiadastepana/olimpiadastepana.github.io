@@ -1,44 +1,167 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Мультиплеер</title>
-</head>
-<body>
-    <h1>Мультиплеер</h1>
+<script>
+import express from 'express';
+import { createServer } from 'node:http';
+import { Server } from 'socket.io';
+import sqlite3 from 'sqlite3';
+import { open } from 'sqlite';
+import { availableParallelism } from 'node:os';
+import cluster from 'node:cluster';
+import { createAdapter, setupPrimary } from '@socket.io/cluster-adapter';
 
-    <div id="messages"></div>
+if (cluster.isPrimary) {
+  const numCPUs = availableParallelism();
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork({
+      PORT: 3000 + i
+    });
+  }
 
-    <input type="text" id="message" placeholder="Введите сообщение">
-    <button onclick="sendMessage()">Отправить</button>
+  setupPrimary();
+} else {
+  const db = await open({
+    filename: 'chat.db',
+    driver: sqlite3.Database
+  });
 
-    <script>
-        // Создание WebSocket соединения
-        var socket = new WebSocket("ws://localhost:12345");
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      client_offset TEXT UNIQUE,
+      content TEXT
+    );
+  `);
 
-        // Обработчик события открытия соединения
-        socket.onopen = function() {
-            console.log("Соединение открыто.");
-        };
+  const app = express();
+  const server = createServer(app);
+  const io = new Server(server, {
+    connectionStateRecovery: {},
+    adapter: createAdapter()
+  });
 
-        // Обработчик события получения сообщения
-        socket.onmessage = function(event) {
-            var message = event.data;
-            var messagesDiv = document.getElementById("messages");
-            messagesDiv.innerHTML += "<p>" + message + "</p>";
-        };
+  app.get('/', (req, res) => {
+    res.sendFile(new URL('./index.html', import.meta.url).pathname);
+  });
 
-        // Обработчик события закрытия соединения
-        socket.onclose = function() {
-            console.log("Соединение закрыто.");
-        };
-
-        // Функция для отправки сообщения
-        function sendMessage() {
-            var messageInput = document.getElementById("message");
-            var message = messageInput.value;
-            socket.send(message);
-            messageInput.value = "";
+  io.on('connection', async (socket) => {
+    socket.on('chat message', async (msg, clientOffset, callback) => {
+      let result;
+      try {
+        result = await db.run('INSERT INTO messages (content, client_offset) VALUES (?, ?)', msg, clientOffset);
+      } catch (e) {
+        if (e.errno === 19 /* SQLITE_CONSTRAINT */ ) {
+          callback();
+        } else {
+          // nothing to do, just let the client retry
         }
+        return;
+      }
+      io.emit('chat message', msg, result.lastID);
+      callback();
+    });
+
+    if (!socket.recovered) {
+      try {
+        await db.each('SELECT id, content FROM messages WHERE id > ?',
+          [socket.handshake.auth.serverOffset || 0],
+          (_err, row) => {
+            socket.emit('chat message', row.content, row.id);
+          }
+        )
+      } catch (e) {
+        // something went wrong
+      }
+    }
+  });
+
+  const port = process.env.PORT;
+
+  server.listen(port, () => {
+    console.log(`server running at http://localhost:${port}`);
+  });
+}
+const express = require('express');
+const { createServer } = require('node:http');
+const { join } = require('node:path');
+const { Server } = require('socket.io');
+const sqlite3 = require('sqlite3');
+const { open } = require('sqlite');
+const { availableParallelism } = require('node:os');
+const cluster = require('node:cluster');
+const { createAdapter, setupPrimary } = require('@socket.io/cluster-adapter');
+
+if (cluster.isPrimary) {
+  const numCPUs = availableParallelism();
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork({
+      PORT: 3000 + i
+    });
+  }
+
+  return setupPrimary();
+}
+
+async function main() {
+  const db = await open({
+    filename: 'chat.db',
+    driver: sqlite3.Database
+  });
+
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      client_offset TEXT UNIQUE,
+      content TEXT
+    );
+  `);
+
+  const app = express();
+  const server = createServer(app);
+  const io = new Server(server, {
+    connectionStateRecovery: {},
+    adapter: createAdapter()
+  });
+
+  app.get('/', (req, res) => {
+    res.sendFile(join(__dirname, 'index.html'));
+  });
+
+  io.on('connection', async (socket) => {
+    socket.on('chat message', async (msg, clientOffset, callback) => {
+      let result;
+      try {
+        result = await db.run('INSERT INTO messages (content, client_offset) VALUES (?, ?)', msg, clientOffset);
+      } catch (e) {
+        if (e.errno === 19 /* SQLITE_CONSTRAINT */ ) {
+          callback();
+        } else {
+          // nothing to do, just let the client retry
+        }
+        return;
+      }
+      io.emit('chat message', msg, result.lastID);
+      callback();
+    });
+
+    if (!socket.recovered) {
+      try {
+        await db.each('SELECT id, content FROM messages WHERE id > ?',
+          [socket.handshake.auth.serverOffset || 0],
+          (_err, row) => {
+            socket.emit('chat message', row.content, row.id);
+          }
+        )
+      } catch (e) {
+        // something went wrong
+      }
+    }
+  });
+
+  const port = process.env.PORT;
+
+  server.listen(port, () => {
+    console.log(`server running at http://localhost:${port}`);
+  });
+}
+
+main();
     </script>
-</body>
-</html>
