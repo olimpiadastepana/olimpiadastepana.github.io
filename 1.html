@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мультиплеер</title>
+</head>
+<body>
+    <h1>Мультиплеер</h1>
+
+    <div id="messages"></div>
+
+    <input type="text" id="message" placeholder="Введите сообщение">
+    <button onclick="sendMessage()">Отправить</button>
+
+    <script>
+        // Создание WebSocket соединения
+        var socket = new WebSocket("ws://localhost:12345");
+
+        // Обработчик события открытия соединения
+        socket.onopen = function() {
+            console.log("Соединение открыто.");
+        };
+
+        // Обработчик события получения сообщения
+        socket.onmessage = function(event) {
+            var message = event.data;
+            var messagesDiv = document.getElementById("messages");
+            messagesDiv.innerHTML += "<p>" + message + "</p>";
+        };
+
+        // Обработчик события закрытия соединения
+        socket.onclose = function() {
+            console.log("Соединение закрыто.");
+        };
+
+        // Функция для отправки сообщения
+        function sendMessage() {
+            var messageInput = document.getElementById("message");
+            var message = messageInput.value;
+            socket.send(message);
+            messageInput.value = "";
+        }
+    </script>
+</body>
+</html>
